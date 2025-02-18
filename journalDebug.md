@@ -135,7 +135,49 @@
 
 ## justification technique 
 
-- Utilisation des variabls du projet pour la cohérence des couleurs
+- Utilisation des variables scss du projet pour la cohérence des couleurs
 - Application des bonne pratiques React pour le style
 - Respect du DRY
+
+## Bug #1.3 - Liens de navigation non fonctionnels
+
+### Localisation
+- Fichiers concernés :
+  - `src/pages/Home/index.js`
+  - `src/containers/Menu/index.js`
+
+### Description du problème
+Les liens dans la barre de navigation ne redirigent pas vers les sections correspondantes :
+- Le lien "Nos services" ne renvoie pas à la section Services
+- Le lien "Nos réalisations" ne renvoie pas à la section Réalisations
+- Le lien "Notre équipe" ne renvoie pas à la section Équipe
+
+### Processus de débogage
+1. **Analyse du problème** :
+   - Les liens dans le menu utilisent des ancres (href="#nos-services", etc.)
+   - Les sections dans la page n'avaient pas les IDs correspondants
+   - Les liens étaient correctement définis mais n'avaient pas de cible
+
+2. **Identification de la solution** :
+   - Ajouter les IDs manquants aux sections correspondantes
+   - S'assurer que les IDs correspondent exactement aux href des liens
+
+### Corrections apportées
+
+Dans `pages/Home/index.js` :
+```jsx
+<section className="ServicesContainer" id="nos-services">
+<section className="EventsContainer" id="nos-realisations">
+<section className="PeoplesContainer" id="notre-equipe">
+
+### Validation des corrections
+
+✅ Le clic sur "Nos services" renvoie à la section Services
+✅ Le clic sur "Nos réalisations" renvoie à la section Réalisations 
+✅ Le clic sur "Notre équipe" renvoie à la section Équipe
+
+### Justification technique 
+- Utilisation des ancres HTML standard pour la navigation intra-page
+- Repect des conventions de nommages
+- Solutions simple et performante
 
