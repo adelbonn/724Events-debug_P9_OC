@@ -74,3 +74,68 @@
    - Tri : 
    - Indiquer sur quelle slide on se trouve 
    - Ne pas afficher les slides inutiles (une slide ce s'affiche pas (un blanc apparaît))
+
+ ## Bug #1.2 - Style du Logo incorrect
+
+### Localisation
+- Fichiers concernés :
+  - `src/components/Logo/index.js`
+  - `src/components/Logo/style.scss`
+
+### Description du problème
+1. Style du texte incorrect dans le SVG
+2. Dégradé de couleur manquant
+3. Police de caractère mal appliquée
+
+### Processus de débogage
+1. **Analyse du problème** :
+   - Les styles étaient écrits en CSS standard au lieu du format JSX dans le composant `Logo`
+   - Le dégradé n'était pas appliqué correctement
+   - Les variables de couleur du projet n'étaient pas utilisées
+
+2. **Identification des solutions** :
+   - Conversion des styles en format JSX dans le composant ReactLogo
+   - import de ../colors.scss pour utiliser les variables de couleur
+   - Utilisation des variables SCSS du projet (`$primary`)
+   - Application du dégradé avec `background-clip: text`
+   - ajout du cursor :pointer sur le logo
+
+### Corrections apportées
+
+1. **Dans `Logo/index.js`** :
+   - Ajout de la classe `Logo__text` pour le texte SVG
+   - Suppression des styles inline pour une meilleure maintenabilité
+
+2. **Dans `Logo/style.scss`** :
+   ```scss
+   @import "src/colors.scss";
+
+   .Logo {
+     margin: 22px;
+     cursor: pointer;
+
+     &__text {
+       font-family: "Kalimati", sans-serif;
+       font-size: 39px;
+       font-weight: 700;
+       white-space: pre;
+       background: linear-gradient(to right, darken($primary, 10%), $primary);
+       background-clip: text;
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;
+       color: transparent;
+     }
+   }  
+### Validation des corrections
+
+✅ Police Kalimati correctemnt appliquée
+✅ Dégradé de couleur correctement appliqué
+✅ Cursor correctement appliqué
+✅ Styles correctement appliqués dans le fichier style.scss, et syle plus maintenable grâce aux variables scss du projet
+
+## justification technique 
+
+- Utilisation des variabls du projet pour la cohérence des couleurs
+- Application des bonne pratiques React pour le style
+- Respect du DRY
+

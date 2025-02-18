@@ -1,3 +1,18 @@
+@import "src/colors.scss";
+
 .Logo {
   margin: 22px;
+  cursor: pointer;
+
+  &__text {
+    font-family: "Kalimati", sans-serif;
+    font-size: 39px;
+    font-weight: 700;
+    white-space: pre;
+    background: linear-gradient(to right, darken($primary, 10%), $primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
 }
