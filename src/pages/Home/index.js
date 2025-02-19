@@ -11,9 +11,15 @@ import Icon from "../../components/Icon";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
-
+/* eslint-disable no-console */
 const Page = () => {
-  const {last} = useData()
+  const {data, error, isLoading} = useData()
+// amélioration de la getsion des errers lors du chargement des données
+  if (isLoading) return <div>Chargement en cours...</div>;
+  if (error) return <div>Erreur lors du chargement des données : {error.message}</div>;
+  const last = data?.events? data.events[data.events.length - 1] : null// récupère le derner événement 
+  // eslint-disable-next-line no-console
+  console.log("Last event data :" , last)
   return <>
     <header>
       <Menu />
@@ -116,13 +122,15 @@ const Page = () => {
     <footer className="row">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
+        {last && (
         <EventCard
-          imageSrc={last?.cover}
-          title={last?.title}
-          date={new Date(last?.date)}
+          imageSrc={last.cover}
+          title={last.title}
+          date={new Date(last.date)}
           small
-          label="boom"   // {last.type} // permet d'afficher le type d'événement dans la card
+          label={last.type} // {last.type} // permet d'afficher le type d'événement dans la card
         />
+        )}
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>

@@ -19,17 +19,23 @@ export const api = {
 export const DataProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const [last, setLast] = useState(null); // Ajout d'un état pour last pour le timestamp
+  
   const getData = useCallback(async () => {
     try {
-      setData(await api.loadData());
+      const result = await api.loadData();
+      setData(result);
+      setLast(Date.now()); // Mise à jour de 'last' quand les données sont chargées
     } catch (err) {
       setError(err);
     }
   }, []);
+
   useEffect(() => {
     if (data) return;
     getData();
-  });
+  }, [data, getData]); // Récupère les données à chaque rafraichissement
+  console.log("DataContext state : ", { data, error, last })
   
   return (
     <DataContext.Provider
@@ -37,6 +43,7 @@ export const DataProvider = ({ children }) => {
       value={{
         data,
         error,
+        last   // Ajout de la date actuelle
       }}
     >
       {children}

@@ -11,7 +11,9 @@ const EventCard = ({
   label,
   small = false,
   ...props
+  
 }) => {
+
   // on s'assure que  la date passée à EventCard.js est bien un objet Date (avec instanceof) avant d'appeler la fonction getMonth()
 const eventDate = date instanceof Date ? date : new Date(date);
 
