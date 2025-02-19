@@ -1,4 +1,6 @@
-# Jouranl de debug - 724Events
+# Journal de debug - 724Events  16/02/2025
+(a réécrire de façon plus profesionnelle)
+
 
 ## Bugs Identifiés
 
@@ -13,12 +15,17 @@
 1.2 Logo :
 
      - pas de cursor pointer sur le logo
+     - les caractères n'ont pas la bonne police (Kalimati)
+     - le style du logo n'est pas appliqué correctement (pas de gradé)
+
 
 1.3 Les boutons de la navbar : 
 
      - le bouton : 'Nos services ne renvoi pas la section 'Nos services'
      - le bouton 'Nos réalisations' ne renvoi pas à la section 'Nos          réalisations'
      - le boutons 'Notre équipe ne renvoie pas à la section 'Notre équipe'
+     -> les ancres  de la navbar ne renvoie pas aux sections correspondantes (les id dans  Page/Home/inex.js ne sont pas appliqué aux section, les ancres correpondantes se trouvent dans Container/Menu/Boutons/index.js
+ )
 
 2. Section ' Nos réalisations ' :
 
@@ -28,8 +35,8 @@
 
 2.2 Modale :
 
-    - ne se ferlme pas lorsque l'utilisateur clique en dehors de la modal
-    - la liste des événenements ne semble pas afficher les bons mois et certains reste vide
+    - ne se ferme pas lorsque l'utilisateur clique en dehors de la modal
+    - la liste des événenements ne semble pas afficher les bons mois et certains reste vide (sera corriger en mêmetemps que le problème de key du slider pour les mois)
 
 3. Formulaire de contact : 
      - Message de confirmation manquant quand le message est envoyé (au click sur envoyer suite à un remplissage correct des champs)
@@ -49,12 +56,49 @@
 
 5. Typos à corrigé :
      
-     - trouver et corriger les typs (dans le fichier index.js) de :
-       - logo les style ne sont pas écrit  en jsx mais en css c'est pour cela que cela ne focntionne pas
+     - trouver et corriger les typos (dans le fichier index.js) de :
+       - logo les styles inline ne sont pas écrit  en jsx , il existe des vriables scss spécifique a notre projet autant ls appliqué directement dans le scss de Logo
+       - Vérifié si d'autres stymles sont mal appliqué
+6. Gros problèmes de performance :
+Large content full Paint a 879.5
+cumulative Layout  a 2.00
+
+7. Problèmes de stackoverflow
+
+hook.js:608 Warning: Encountered two children with the same key, `undefined`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. Error Component Stack
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at Slider (index.js:8:1)
+    at section (<anonymous>)
+    at main (<anonymous>)
+    at Page (index.js:16:1)
+    at DataProvider (index.js:19:1)
+    at App (<anonymous>)
+overrideMethod	@	hook.js:608
+printWarning	@	react-dom.development.js:86
+error	@	react-dom.development.js:60
+warnOnInvalidKey	@	react-dom.development.js:15124
+reconcileChildrenArray	@	react-dom.development.js:15163
+reconcileChildFibers	@	react-dom.development.js:15657
+reconcileChildren	@	react-dom.development.js:19916
+updateHostComponent$1	@	react-dom.development.js:20658
+beginWork	@	react-dom.development.js:22373
+beginWork$1	@	react-dom.development.js:27219
+performUnitOfWork	@	react-dom.development.js:26392
+workLoopSync	@	react-dom.development.js:26303
+renderRootSync	@	react-dom.development.js:26271
+performConcurrentWorkOnRoot	@	react-dom.development.js:25577
+workLoop	@	scheduler.development.js:266
+flushWork	@	scheduler.development.js:239
+performWorkUntilDeadline	@	scheduler.development.js:533
+
 
 
 ## Plan de Test 
 
+ - [] Aller dans ReactDevTools et analyser les differents composant leur comportement..
+ - Corriger les warning de la console
  - [] Lancer les tests unitaires
  - [] Noter les tests qui échouent
  - [] Corriger chaque bugs identifiés
@@ -64,16 +108,73 @@
 
  ## Bug #1.1 - Slider :
  - Localisation : Slider/index.js
-
+- problème  dans le timeout du slider a corriger ( l'index peut dépasse la longueur du tableau à corriger)
  - Description :
    - Tri incorrect des événenments
-   - les boutons radio n'indique pas sur quelle slide on se trouve au défilement des slides
+   - les boutons radio n'indique pas sur quelle slide on se trouve au défilement des slides (ilsn'ont pas de gestionnaire d'eveneme,ts, ) = pbs de pagination
    - une slide ce s'affiche pas (un blanc apparaît)
 
  - Correction : 
    - Tri : 
    - Indiquer sur quelle slide on se trouve 
-   - Ne pas afficher les slides inutiles (une slide ce s'affiche pas (un blanc apparaît))
+   - Faire apparaitre la slid qui ne s'affiche pas ou ne pas afficher de slid inutiles (une slide ce s'affiche pas (un blanc apparaît))
+
+
+## 1. Correction du Slider
+
+### Localisation
+- Fichier: `src/containers/Slider/index.js`
+
+### Description du problème
+1. Tri incorrect des événements
+2. Les boutons radio n'indiquaient pas la slide active lors du défilement
+3. Une slide ne s'affichait pas correctement (un blanc apparaissait)
+
+### Processus de débogage
+1. **Analyse du problème** :
+   - La logique de tri des événements était incorrecte
+   - Les boutons radio n'avaient pas de gestionnaire d'événements pour la pagination
+   - L'index du slider pouvait dépasser la longueur du tableau
+
+2. **Solutions appliquées** :
+   - Réécriture de la logique de tri des événements
+   - Ajout d'un gestionnaire d'événements pour les boutons radio
+   - Correction de la logique de défilement automatique
+
+### Corrections apportées
+
+```javascript
+// Ancien code
+const byDateDesc = data?.focus.sort((evtA, evtB) =>
+  new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
+);
+
+// Nouveau code
+const byDateDesc = data?.focus ? [...data.focus].sort((evtA, evtB) => {
+  const dateA = new Date(evtA.date);
+  const dateB = new Date(evtB.date);
+  return dateB - dateA;  // Tri du plus récent au plus ancien
+}) : [];
+
+// Ajout d'un useEffect pour gérer le défilement automatique
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setIndex((prevIndex) => 
+      prevIndex < (byDateDesc.length - 1) ? prevIndex + 1 : 0
+    );
+  }, 5000);
+
+  return () => clearTimeout(timer);
+}, [index, byDateDesc.length]);
+
+// Ajout d'un gestionnaire d'événements pour les boutons radio
+<input
+  key={dot.id}
+  type="radio"
+  name="radio-button"
+  checked={index === radioIdx}
+  onChange={() => setIndex(radioIdx)}
+/>
 
  ## Bug #1.2 - Style du Logo incorrect
 
