@@ -121,7 +121,7 @@ const Page = () => {
           title={last?.title}
           date={new Date(last?.date)}
           small
-          label="boom"
+          label="boom"   // {last.type} // permet d'afficher le type d'événement dans la card
         />
       </div>
       <div className="col contact">

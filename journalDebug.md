@@ -36,7 +36,8 @@
 2.2 Modale :
 
     - ne se ferme pas lorsque l'utilisateur clique en dehors de la modal
-    - la liste des événenements ne semble pas afficher les bons mois et certains reste vide (sera corriger en mêmetemps que le problème de key du slider pour les mois)
+    - la liste des événenements ne semble pas afficher les bons mois et certains reste vide (sera corriger en même temps que le problème de key du slider pour les mois)
+    - La modale n'affiche pas les les même date que celles des événements sur les cards (voir si correct pour l'exercice, ou a corriger)
 
 3. Formulaire de contact : 
      - Message de confirmation manquant quand le message est envoyé (au click sur envoyer suite à un remplissage correct des champs)
@@ -108,7 +109,8 @@ performWorkUntilDeadline	@	scheduler.development.js:533
 
  ## Bug #1.1 - Slider :
  - Localisation : Slider/index.js
-- problème  dans le timeout du slider a corriger ( l'index peut dépasse la longueur du tableau à corriger)
+
+- problème  dans le timeout du slider a corriger ( l'index peut dépasse la longueur du tableau, pas de tableau de dependans ce ce qui provoque l'affichage d'une slide blanche, à corriger)
  - Description :
    - Tri incorrect des événenments
    - les boutons radio n'indique pas sur quelle slide on se trouve au défilement des slides (ilsn'ont pas de gestionnaire d'eveneme,ts, ) = pbs de pagination
@@ -167,7 +169,7 @@ useEffect(() => {
   return () => clearTimeout(timer);
 }, [index, byDateDesc.length]);
 
-// Ajout d'un gestionnaire d'événements pour les boutons radio
+// Ajout d'un gestionnaire d'événements onChange, pour les boutons radio
 <input
   key={dot.id}
   type="radio"
@@ -175,6 +177,11 @@ useEffect(() => {
   checked={index === radioIdx}
   onChange={() => setIndex(radioIdx)}
 />
+### Validation
+✅ Les événements sont correctement triés du plus récent au plus ancien
+✅ Les boutons radio indiquent correctement la slide active
+✅ Toutes les slides s affichent correctement sans blanc
+
 
  ## Bug #1.2 - Style du Logo incorrect
 
@@ -227,6 +234,8 @@ useEffect(() => {
        color: transparent;
      }
    }  
+     ```
+
 ### Validation des corrections
 
 ✅ Police Kalimati correctemnt appliquée
@@ -270,6 +279,7 @@ Dans `pages/Home/index.js` :
 <section className="ServicesContainer" id="nos-services">
 <section className="EventsContainer" id="nos-realisations">
 <section className="PeoplesContainer" id="notre-equipe">
+```
 
 ### Validation des corrections
 
@@ -281,4 +291,51 @@ Dans `pages/Home/index.js` :
 - Utilisation des ancres HTML standard pour la navigation intra-page
 - Repect des conventions de nommages
 - Solutions simple et performante
+
+## Correction de l'affichage des mois dans le Slider et les EventCards
+
+### Localisation
+- Fichiers concernés :
+  - `src/helpers/Date/index.js`
+  - `src/components/EventCard/index.js`
+  - `src/containers/Slider/index.js`
+
+### Description du problème
+Les mois n'étaient pas correctement affichés dans le slider et les EventCards. L'index des mois commençait à 0 (janvier = 0) alors que l'objet MONTHS utilisait des clés commençant à 1.
+
+### Processus de débogage
+1. **Analyse du problème** :
+   - La fonction `getMonth` dans `helpers/Date/index.js` retournait un index de mois décalé
+   - Les composants utilisant cette fonction affichaient donc des mois incorrects
+
+2. **Solution appliquée** :
+   - Modification de la fonction `getMonth` pour ajouter 1 à l'index du mois
+   - Vérification et ajustement de l'utilisation de cette fonction dans les composants concernés
+
+### Corrections apportées
+
+Dans `src/helpers/Date/index.js` :
+Commençais a 1 au lieu de zéro, correction à la source pour une solutio globale, (a corriger le slide où il manquait un month et les eventCard où les months ne s'affichait pas)
+
+```javascript
+export const getMonth = (date) => MONTHS[date.getMonth() + 1];
+```
+
+Dans src/components/EventCards/index.js :
+```javascript
+// verification de la date est bien un objet Date, verification du type afin d'assurer la compatibilité
+const eventDate = date instanceof Date ? date : new Date(date);
+// ... reste du code 
+<div className="EventCard__month">{getmonth(eventDate)} </div>
+```
+
+### Validation
+✅ Les mois s'affichent correctement dans le slider
+✅ Les mois s'affichent correctement sur les EventCards
+✅ La cohérence est maintenue entre tous les composants utilisant l'affichage des mois
+### Justification technique
+
+- Correction à la source dans la fonction helper pour une solution globals
+- Vérification du type de date dans EventCards pour assurer la compatibilité
+- Utilisation cohérente de la fonction getMonth à travers l'application
 

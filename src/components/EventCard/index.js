@@ -11,7 +11,11 @@ const EventCard = ({
   label,
   small = false,
   ...props
-}) => (
+}) => {
+  // on s'assure que  la date passée à EventCard.js est bien un objet Date (avec instanceof) avant d'appeler la fonction getMonth()
+const eventDate = date instanceof Date ? date : new Date(date);
+
+  return (
     <div
       data-testid="card-testid"
       className={`EventCard${small ? " EventCard--small" : ""}`}
@@ -23,11 +27,12 @@ const EventCard = ({
       </div>
       <div className="EventCard__descriptionContainer">
         <div className="EventCard__title">{title}</div>
-        <div className="EventCard__month">{getMonth(date)}</div>
+        {/* permet d'afficher notre mois avec getMonths() */}
+        <div className="EventCard__month">{getMonth(eventDate)}</div> 
       </div>
     </div>
   );
-
+};
 EventCard.propTypes = {
   imageSrc: PropTypes.string.isRequired,
   imageAlt: PropTypes.string,
