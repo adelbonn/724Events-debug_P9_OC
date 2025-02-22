@@ -30,7 +30,7 @@
 
 ### 1. Events/index.js
 - Tests : "When Events is created > and we select a category › an filtered list is displayed
-- Erreur : Element `Forum #productionCON`trouvé alors qu'il n,e devrait pas être présent 
+- Erreur : Element `Forum #productionCON`trouvé alors qu'il ne devrait pas être présent 
 - Composant : Events
 - Type : Erreur de filtrage
 
@@ -514,7 +514,7 @@ Les échecs semblent se regrouper en plusieurs catégories :
 4. Problèmes de feedback utilisateur (Home)
 
 
-Ce qui confirme les erreurs vu dans RectDevTools et la console (cf: journalDebug.md)
+Ce qui confirme les erreurs vues dans ReactDevTools et la console du navigateur (cf: journalDebug.md)
 
 ## Suivi des corrections des tests
 

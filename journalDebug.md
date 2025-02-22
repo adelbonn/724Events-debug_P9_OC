@@ -1,5 +1,5 @@
 # Journal de debug - 724Events  16/02/2025
-(a réécrire de façon plus profesionnelle)
+(corrigé les erreurs(syntaxe markdown, fautes de frappe...) du journalTest. md, et réécrire certaines parties car d'autres améliorations effectué et d'autres choix tech que ceux decrit (cf, jDbug.txt local) )
 
 
 ## Bugs Identifiés

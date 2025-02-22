@@ -7,8 +7,8 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
- // const byDateDesc = data?.focus? [...data.focus].sort((evtA, evtB) =>  // ajout de? sur focus pour s'arrure que lélément a bien le focus
-   // new Date(evtA.date) > new Date(evtB.date) ? -1 : 1 // correction de la pagination, la n'est pas triée de la plus récente à la plus ancienne le signe <  a été remplacé par le sign >
+ // const byDateDesc = data?.focus? [...data.focus].sort((evtA, evtB) =>  // ajout de? sur focus pour s'assurer que lélément a bien le focus
+   // new Date(evtA.date) > new Date(evtB.date) ? -1 : 1 // correction de la pagination, elle n'est pas triée de la plus récente à la plus ancienne, mais de la plus ancienne à la plus récente le signe <  a été remplacé par le sign >
  //  );
 
  // Créer une copie triée (sort)du tableau pour éviter la mutation du tableau original
@@ -18,7 +18,7 @@ const Slider = () => {
  return dateB - dateA; // Tri décroissant
  }) : [];
 
- // Réinitialiser l'index si on dépasse la longueur du tableau
+ // Réinitialiser l'index si on dépasse la longueur du tableau (évite le bug du slider blanc)
  useEffect(() => {
   if (byDateDesc.length && index >= byDateDesc.length) {
     setIndex(0);
@@ -57,8 +57,8 @@ if (!data ||!data.focus || byDateDesc.length === 0) {
             className={`SlideCard SlideCard--${
             index === idx ? "display" : "hide"
             }`}
-          >
-            <img src={event.cover} alt="forum" />
+          >  
+            <img src={event.cover} alt={event.title} /> 
             <div className="SlideCard__descriptionContainer">
               <div className="SlideCard__description">
                 <h3>{event.title}</h3>
@@ -72,12 +72,12 @@ if (!data ||!data.focus || byDateDesc.length === 0) {
             <div className="SlideCard__pagination">
               {byDateDesc.map((dot, radioIdx) => (
                 <input
-                  key={dot.id}
+                  key={dot.id}  // utilisation de dot.id comme key 
                   type="radio"
                   name="radio-button"
                 
                   checked={index === radioIdx}
-                  onChange={() => setIndex(radioIdx)} // Mettre à jour l'index lors du changement
+                  onChange={() => setIndex(radioIdx)} // Mettre à jour l'index lors du changement, ajout du gestionnaire deve onChange
                 />
                 
               ))}
