@@ -33,7 +33,7 @@ const EventList = () => {
   //   return false;
   // });
   
-  // 2. Comprendre pourquoi le filtrage échoue
+
 const filteredEvents = (data?.events || [])
 .filter((event) => {
   // Filtre par type si un type est sélectionné

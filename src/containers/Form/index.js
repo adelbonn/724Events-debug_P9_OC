@@ -13,6 +13,7 @@ const Form = ({ onSuccess, onError }) => {
       evt.preventDefault();
       console.log("Form submited with data:", new FormData(evt.target));
       setSending(true);
+      onSuccess(); // We call onSuccess after mockContactApi 
       // We try to call mockContactApi
       try {
         await mockContactApi();
@@ -20,6 +21,7 @@ const Form = ({ onSuccess, onError }) => {
       } catch (err) {
         setSending(false);
         onError(err);
+        throw err;
       }
     },
     [onSuccess, onError]
