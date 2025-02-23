@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 import "./style.scss";
 
+// Crée le composant Select qui accepte plusiers props en tant que paramètre 
 const Select = ({
   selection,
   onChange,
@@ -14,19 +15,33 @@ const Select = ({
   type = "normal",
 }) => {
   const [value, setValue] = useState();
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(true);  // boleen et non pas une valeur, donc changer le booleen qd on appel setValue
   const changeValue = (newValue) => {
     console.log('Select - Nouvelle valeur sélectionnée', newValue)
     // onChange();   // bug ici il n'envoie pas  newValue
-    onChange(newValue); // transmet la newValue
+    onChange(newValue); // Correction : ajout de la valeur newValue , il transmet la newValue
     setValue(newValue);
-    // setCollapsed(newValue);  // utilise newValue au lieu d'un booléen
-    setCollapsed(false); // utilise une booleen
+    // setCollapsed(newValue);  // utilise newValue au lieu d'un booléen (cf ci-dessus)
+    setCollapsed(true); // utilise une booleen, ici true pour que le collapse se ferme après le choix de l'utilisateur 
   };
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
       {label && <div className="label">{label}</div>}
-      <div className="Select">
+      
+      <div className="Select"
+      role="button" // ajout du role pour une meilleure accesibilité
+      tabIndex={0}  // tabindex pour la navigation clavier
+      onClick={(e) => {
+        e.preventDefault();
+        setCollapsed(!collapsed);
+      }}
+      onKeyDown={(e) => { // Gestion du clavier pour l'accessibilité
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setCollapsed(!collapsed);
+        }
+      }}
+    >
         <ul>
           <li className={collapsed ? "SelectTitle--show" : "SelectTitle--hide"}>
             {value || (!titleEmpty && "Toutes")}

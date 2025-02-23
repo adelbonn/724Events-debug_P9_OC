@@ -14,6 +14,7 @@ const Form = ({ onSuccess, onError }) => {
       console.log("Form submited with data:", new FormData(evt.target));
       setSending(true);
       onSuccess(); // We call onSuccess after mockContactApi 
+      // modifications : ajout de l'appel à onSueccess() et onErr propagation de erreur
       // We try to call mockContactApi
       try {
         await mockContactApi();
