@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EventCard from "../../components/EventCard";
 import Select from "../../components/Select";
 import { useData } from "../../contexts/DataContext";
@@ -13,21 +13,53 @@ const EventList = () => {
   const { data, error } = useData();
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const filteredEvents = (
-    (!type
-      ? data?.events
-      : data?.events) || []
-  ).filter((event, index) => {
-    if (
-      (currentPage - 1) * PER_PAGE <= index &&
-      PER_PAGE * currentPage > index
-    ) {
-      return true;
-    }
-    return false;
+
+ useEffect(() => {
+  console.log("🔍 Current filter type:", type);
+  console.log("📊 Available events:", data?.events);
+}, [type, data]);
+
+  // const filteredEvents = (
+  //   (!type
+  //     ? data?.events
+  //     : data?.events) || []
+  // ).filter((event, index) => {
+  //   if (
+  //     (currentPage - 1) * PER_PAGE <= index &&
+  //     PER_PAGE * currentPage > index
+  //   ) {
+  //     return true;
+  //   }
+  //   return false;
+  // });
+  
+  // 2. Comprendre pourquoi le filtrage échoue
+const filteredEvents = (data?.events || [])
+.filter((event) => {
+  // Filtre par type si un type est sélectionné
+  const matchesType = !type || event.type === type;
+  console.log(`Event "${event.title}":`, {
+    eventType: event.type,
+    selectedType: type,
+    matches: matchesType
   });
+  return matchesType;
+})
+  // 2. Ajout de la pagination
+  .filter((_, index) => {
+    const start = (currentPage - 1) * PER_PAGE;
+    const end = start + PER_PAGE;
+    return index >= start && index < end;
+  });
+  
+  
   const changeType = (evtType) => {
-    setCurrentPage(1);
+    console.log('Type change:', {
+      from: type,
+      to: evtType
+    });
+
+    setCurrentPage(1);  // Reset pagination qd le type changes
     setType(evtType);
   };
   const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;

@@ -16,9 +16,12 @@ const Select = ({
   const [value, setValue] = useState();
   const [collapsed, setCollapsed] = useState(true);
   const changeValue = (newValue) => {
-    onChange();
+    console.log('Select - Nouvelle valeur sélectionnée', newValue)
+    // onChange();   // bug ici il n'envoie pas  newValue
+    onChange(newValue); // transmet la newValue
     setValue(newValue);
-    setCollapsed(newValue);
+    // setCollapsed(newValue);  // utilise newValue au lieu d'un booléen
+    setCollapsed(false); // utilise une booleen
   };
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">

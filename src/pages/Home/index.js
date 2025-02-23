@@ -12,12 +12,20 @@ import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 /* eslint-disable no-console */
+
 const Page = () => {
   const {data, error, isLoading} = useData()
-// amélioration de la getsion des errers lors du chargement des données
+
+  console.log('🏠 Home Page render:', {
+    isLoading,
+    hasError: !!error,
+    hasData: !!data
+  });
+
+// amélioration de la getsion des erreurs lors du chargement des données
   if (isLoading) return <div>Chargement en cours...</div>;
   if (error) return <div>Erreur lors du chargement des données : {error.message}</div>;
-  const last = data?.events? data.events[data.events.length - 1] : null// récupère le derner événement 
+  const last = data?.events? data.events[data.events.length - 1] : null// récupère le dernier événement 
   // eslint-disable-next-line no-console
   console.log("Last event data :" , last)
   return <>

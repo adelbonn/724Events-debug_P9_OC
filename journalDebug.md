@@ -315,7 +315,7 @@ Les mois n'étaient pas correctement affichés dans le slider et les EventCards.
 ### Corrections apportées
 
 Dans `src/helpers/Date/index.js` :
-Commençais a 1 au lieu de zéro, correction à la source pour une solutio globale, (a corriger le slide où il manquait un month et les eventCard où les months ne s'affichait pas)
+Commençais a 1 au lieu de zéro, correction à la source pour une solution globale, (a corriger le slide où il manquait un month et les eventCard où les months ne s'affichait pas)
 
 ```javascript
 export const getMonth = (date) => MONTHS[date.getMonth() + 1];
@@ -333,9 +333,86 @@ const eventDate = date instanceof Date ? date : new Date(date);
 ✅ Les mois s'affichent correctement dans le slider
 ✅ Les mois s'affichent correctement sur les EventCards
 ✅ La cohérence est maintenue entre tous les composants utilisant l'affichage des mois
+
 ### Justification technique
 
 - Correction à la source dans la fonction helper pour une solution globals
 - Vérification du type de date dans EventCards pour assurer la compatibilité
 - Utilisation cohérente de la fonction getMonth à travers l'application
+
+
+## 🐛 Correction du filtrage des evenement dans la section 'Nos réalistion', composant Select, events, pagination
+### Localisation
+- Fichiers concernés :
+  - `src/containers/Events/index.js`
+  - `src/containers/Select/index.js`  
+### Problème
+Le filtrage des événements ne fonctionnait pas correctement dans l'application. Les événements n'étaient pas filtrés selon le type sélectionné et la pagination était défectueuse.
+
+### Symptômes
+1. Le menu déroulant de sélection ne transmettait pas la valeur sélectionnée
+2. Les événements restaient identiques quel que soit le type sélectionné
+3. La pagination ne se réinitialisait pas lors du changement de type
+
+## 🔍 Analyse du Code
+
+### 1. Composant Select
+**Problème détecté :**
+```javascript
+// Ancien code problématique
+const changeValue = (newValue) => {
+  onChange();   // Ne transmettait pas newValue
+  setCollapsed(newValue);  // Utilisait une valeur au lieu d'un booléen
+};
+
+**Solution appliquée : **
+```javascipt
+// nouveau code :
+const changeValue = (newValue) => {
+  onChange(newValue);  // Transmet la nouvelle valeur
+  setValue(newValue);
+  setCollapsed(false); // Utilise un booléen
+};
+```
+
+### 2. Composant Events
+**Problème : **
+```javascript
+// Ancien code problématique
+// Ancien code problématique
+const filteredEvents = (
+  (!type ? data?.events : data?.events) || []
+).filter((event, index) => {
+  // Logique de pagination avant filtrage = incorrect
+});
+
+```
+**Solution appliquée :**
+```javascript
+// Nouveau code :
+const filteredEvents = (data?.events || [])
+  .filter((event) => {
+    // 1. Filtrage par type
+    const matchesType = !type || event.type === type;
+    return matchesType;
+  })
+  .filter((_, index) => {
+    // 2. Pagination après filtrage
+    const start = (currentPage - 1) * PER_PAGE;
+    const end = start + PER_PAGE;
+    return index >= start && index < end;
+  });
+```
+
+
+
+### 📊 Tests Effectués
+Test du Select :
+✅ La sélection d'un type met à jour correctement l'état
+✅ Le menu se ferme après sélection
+✅ La valeur est correctement transmise au parent
+Test du Filtrage :
+✅ Les événements sont correctement filtrés par type
+✅ La pagination fonctionne sur les événements filtrés
+✅ Le compteur de pages est exact
 

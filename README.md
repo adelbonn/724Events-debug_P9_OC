@@ -12,25 +12,47 @@ Le site présente les services, les réalisations, et l'équipe de l'agence.
 - Rédaction d'un cahier de recette complet
 - Documentation du processus de déboggage
 
+## 🐛 Bugs Identifiés et Corrigés
 
-### 🐛 Bugs corrigé
+1. **Carrousel d'événements**
+   - ✅ Correction du tri chronologique (affichage par date décroissante)
+   - ✅ Optimisation de l'affichage des événements
 
-### 1. Slider
-- Correction du tri chronologique des événements
-- Réparation de la navigation et pagination
-- Optimisation de l'affichage et suppression des slides blanches
-- Gestion correcte du state et des effets
+2. **Section "Nos Réalisations"**
+   - ✅ Implémentation du système de filtrage par mois
+   - ✅ Correction de l'affichage des réalisations
 
-### 2. Navigation
-- Correction des liens du menu vers les sections
-- Implémentation du défilement fluide
-- Amélioration de l'accessibilité des liens
+3. **Formulaire de Contact**
+   - ✅ Ajout du message de confirmation après envoi
+   - ✅ Validation des champs du formulaire
 
-### 3. Interface Utilisateur
-- Correction des styles du logo (gradient, police)
-- Amélioration de l'affichage des événements
-- Correction de la modale et de son comportement
-- Optimisation du formulaire de contact
+4. **Autres Corrections**
+   - ✅ Correction des bugs identifiés via les tests
+   - ✅ Optimisation générale des performances
+
+
+## 🧪 Tests et Validation
+
+### Tests Existants
+- Tests unitaires des composants
+- Tests d'intégration
+- Couverture de code complète
+
+### Outils de Débogage Utilisés
+- React Developer Tools pour l'analyse de l'architecture
+- Chrome DevTools pour le débogage
+- Tests automatisés pour la validation
+
+### Documentation de Test
+- `journalDebug.md` : Documentation détaillée des corrections
+- `cahierDeRecette.pdf` : Validation des fonctionnalités
+
+
+## 📈 Améliorations Futures Possibles
+
+- Implémentation de tests unitaires supplémentaires (3 prévus)
+- Ajout de tests d'intégration additionnels (3 prévus)
+- Amélioration continue de la couverture de code
 
 ## 💻 Pre-requis
 
@@ -41,7 +63,7 @@ Le site présente les services, les réalisations, et l'équipe de l'agence.
 
 ``bash
 # Cloner le repository
-git clone [votre-url-github]
+git clone [https://github.com/adelbonn/724Events-debug_P9_OC]
 
 # Se placer dans le dossier
 cd 724-events
