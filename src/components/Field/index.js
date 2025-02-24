@@ -8,7 +8,7 @@ export const FIELD_TYPES = {
   EMAIL: 3, // Ajout d'un nouveau type pour le champ email
 };
 
-const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, required }) => {
+const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, required = false }) => {
   let component;
   switch (type) {
     case FIELD_TYPES.INPUT_TEXT:
@@ -19,6 +19,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, requir
           placeholder={placeholder}
           data-testid="field-testid"
           required={required}
+          title={`Veuillez remplir le champ ${label} `}
         />
       );
       break;
@@ -32,6 +33,7 @@ case FIELD_TYPES.EMAIL:
           data-testid="field-testid"
           required={required}
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          title={`Veuillez remplir le champ ${label} `}
         />
       );
 break;
@@ -46,8 +48,10 @@ break;
           placeholder={placeholder}
           data-testid="field-testid"
           required={required}
+          title={`Veuillez remplir le champ ${label} `}
         />
       );
+      break;
   }
   return (
     <div className="inputField">
@@ -63,7 +67,7 @@ Field.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  required: PropTypes.bool, // Ajout d'un nouveau prop pour le champ requis
+  required: PropTypes.bool // Ajout d'un nouveau prop pour le champ requis
 };
  Field.defaultProps = {
    label: "",
