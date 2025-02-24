@@ -8,21 +8,22 @@
 
 1.1 Slider  : 
 
-    - Tri incorrect des événenments
-    - les boutons radio n'indique pas sur quelle slide on se trouve au défilement des slides
+    - Tri incorrect des événenments (doivent être trié par date de manière décroissante)
+    - pbs d'index dans le slider 
+    - les boutons radio n'indique pas sur quelle slide on se trouve au défilement des slides (mauvaise pagination)
     - un slide ce s'affiche pas correctement(un blanc apparaît)
 
 1.2 Logo :
 
      - pas de cursor pointer sur le logo
      - les caractères n'ont pas la bonne police (Kalimati)
-     - le style du logo n'est pas appliqué correctement (pas de gradé)
+     - le style du logo n'est pas appliqué correctement (pas de dégradé)
 
 
 1.3 Les boutons de la navbar : 
 
      - le bouton : 'Nos services ne renvoi pas la section 'Nos services'
-     - le bouton 'Nos réalisations' ne renvoi pas à la section 'Nos          réalisations'
+     - le bouton 'Nos réalisations' ne renvoi pas à la section 'Nos réalisations'
      - le boutons 'Notre équipe ne renvoie pas à la section 'Notre équipe'
      -> les ancres  de la navbar ne renvoie pas aux sections correspondantes (les id dans  Page/Home/inex.js ne sont pas appliqué aux section, les ancres correpondantes se trouvent dans Container/Menu/Boutons/index.js
  )
@@ -31,13 +32,13 @@
 
 2.1 Filtre des réalisations : 
 
-    - non fonctionnel (ils doivent afficher les réalisations selon le filtre adapté (ex: Conférence doit afficher les conférences, ...))
+    - Filtre du menu déroulant de la section non fonctionnel, elles doivent être filtée par type d'événements et cela ne fonctionne pas correctement(ils doivent afficher les réalisations selon le filtre adapté (ex: Conférence doit afficher les eventsCards des conférences, ...))
+    - Les bons mois ne sont pas affiché sur les eventsCard
 
 2.2 Modale :
 
-    - ne se ferme pas lorsque l'utilisateur clique en dehors de la modal
+    - ne se ferme pas lorsque l'utilisateur clique en dehors de la modale
     - la liste des événenements ne semble pas afficher les bons mois et certains reste vide (sera corriger en même temps que le problème de key du slider pour les mois)
-    - La modale n'affiche pas les les même date que celles des événements sur les cards (voir si correct pour l'exercice, ou a corriger)
 
 3. Formulaire de contact : 
      - Message de confirmation manquant quand le message est envoyé (au click sur envoyer suite à un remplissage correct des champs)
@@ -60,40 +61,10 @@
      - trouver et corriger les typos (dans le fichier index.js) de :
        - logo les styles inline ne sont pas écrit  en jsx , il existe des vriables scss spécifique a notre projet autant ls appliqué directement dans le scss de Logo
        - Vérifié si d'autres stymles sont mal appliqué
+
 6. Gros problèmes de performance :
 Large content full Paint a 879.5
 cumulative Layout  a 2.00
-
-7. Problèmes de stackoverflow
-
-hook.js:608 Warning: Encountered two children with the same key, `undefined`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. Error Component Stack
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at Slider (index.js:8:1)
-    at section (<anonymous>)
-    at main (<anonymous>)
-    at Page (index.js:16:1)
-    at DataProvider (index.js:19:1)
-    at App (<anonymous>)
-overrideMethod	@	hook.js:608
-printWarning	@	react-dom.development.js:86
-error	@	react-dom.development.js:60
-warnOnInvalidKey	@	react-dom.development.js:15124
-reconcileChildrenArray	@	react-dom.development.js:15163
-reconcileChildFibers	@	react-dom.development.js:15657
-reconcileChildren	@	react-dom.development.js:19916
-updateHostComponent$1	@	react-dom.development.js:20658
-beginWork	@	react-dom.development.js:22373
-beginWork$1	@	react-dom.development.js:27219
-performUnitOfWork	@	react-dom.development.js:26392
-workLoopSync	@	react-dom.development.js:26303
-renderRootSync	@	react-dom.development.js:26271
-performConcurrentWorkOnRoot	@	react-dom.development.js:25577
-workLoop	@	scheduler.development.js:266
-flushWork	@	scheduler.development.js:239
-performWorkUntilDeadline	@	scheduler.development.js:533
-
 
 
 ## Plan de Test 
@@ -110,11 +81,11 @@ performWorkUntilDeadline	@	scheduler.development.js:533
  ## Bug #1.1 - Slider :
  - Localisation : Slider/index.js
 
-- problème  dans le timeout du slider a corriger ( l'index peut dépasse la longueur du tableau, pas de tableau de dependans ce ce qui provoque l'affichage d'une slide blanche, à corriger)
+- problème  dans le timeout du slider a corriger ( l'index peut dépasse la longueur du tableau, pas de tableau de dependance ce ce qui provoque l'affichage d'une slide blanche, à corriger)
  - Description :
    - Tri incorrect des événenments
-   - les boutons radio n'indique pas sur quelle slide on se trouve au défilement des slides (ilsn'ont pas de gestionnaire d'eveneme,ts, ) = pbs de pagination
-   - une slide ce s'affiche pas (un blanc apparaît)
+   - les boutons radio n'indique pas sur quelle slide on se trouve au défilement des slides (ils n'ont pas de gestionnaire d'evenements, ) = pbs de pagination
+   - une slide ce s'affiche pas (un blanc apparaît voir ci-dessu la cause (tableau de dependance manquant))
 
  - Correction : 
    - Tri : 
@@ -328,8 +299,10 @@ export const getMonth = (date) => MONTHS[date.getMonth() + 1];
 
 Dans src/components/EventCards/index.js :
 ```javascript
+
+// On a enlver le vérication que la date est bien un objet dat car cela n'était pas nécessaire et la date (plus bas dans le code de Hoime est un string)
 // verification de la date est bien un objet Date, verification du type afin d'assurer la compatibilité
-const eventDate = date instanceof Date ? date : new Date(date);
+// const eventDate = date instanceof Date ? date : new Date(date);
 // ... reste du code 
 <div className="EventCard__month">{getmonth(eventDate)} </div>
 ```
@@ -343,11 +316,12 @@ const eventDate = date instanceof Date ? date : new Date(date);
 ### Justification technique
 
 - Correction à la source dans la fonction helper pour une solution globals
-- Vérification du type de date dans EventCards pour assurer la compatibilité
+<!-- - Vérification du type de date dans EventCards pour assurer la compatibilité -->
 - Utilisation cohérente de la fonction getMonth à travers l'application
 
 
 ## 🐛 Correction du filtrage des événements dans la section 'Nos réalistion', composant Select, events, pagination
+
 ### Localisation
 - Fichiers concernés :
   - `src/containers/Events/index.js`
@@ -374,8 +348,9 @@ const changeValue = (newValue) => {
   onChange();   // Ne transmettait pas newValue
   setCollapsed(newValue);  // Utilisait une valeur au lieu d'un booléen
 };
+```
 
-**Solution appliquée : **
+**Solution appliquée :**
 ```javascipt
 // nouveau code :
 const changeValue = (newValue) => {
@@ -402,7 +377,7 @@ const filteredEvents = (
 
   -  Le ternaire ne renvoi que data?.events dans les deux cas 
   - La logique de pagination est mal placée : 
- - On prenait les X premiers événements avant de les filtrer, résultas on pouvait avoir moins d'événements que prévu dans la page
+ - On prenait les X premiers événements avant de les filtrer, résultat on pouvait avoir moins d'événements que prévu dans la page
 
 **Solution appliquée :**
 
@@ -429,7 +404,8 @@ const filteredEvents = (data?.events || [])
 ```
 Utilise l'opérateur ?.(optional chaining) pour accéder a events de manière sécurisée
 - Le || [] fournit un  tableau vide si data?.events est undefined
- a. - Filtrage en deus étapes : 
+
+ a. - Filtrage en deux étapes : 
  ```
  javascript
  .filter((_, index) => {
@@ -438,7 +414,7 @@ Utilise l'opérateur ?.(optional chaining) pour accéder a events de manière s�
   return index >= start && index < end;
 })
 ```
- - Si !type est vrai (pas de type sélectionné), garde tous les événments
+ - Si !type est vrai (pas de type sélectionné), garde tous les événements
  - Sinon garde uniquement les événements du type sélectionné
 
 b. Second filter - Pagination
@@ -466,7 +442,8 @@ Test du Select :
 ✅ La sélection d'un type met à jour correctement l'état
 ✅ Le menu se ferme après sélection
 ✅ La valeur est correctement transmise au parent
-Test du Filtrage :
+
+### Test du Filtrage :
 ✅ Les événements sont correctement filtrés par type
 ✅ La pagination fonctionne sur les événements filtrés
 ✅ Le compteur de pages est exact
@@ -506,11 +483,11 @@ try {
 }
 ```
 
-### 7. Composa,t Select
+### 7. Composant Select
 
 ## 🔧 Corrections du Composant Select
 
-### 1. Transmission de la Valeur Sélectionnée
+### 7.1. Transmission de la Valeur Sélectionnée
 
 **Problème Initial :**
 ```javascript
@@ -528,7 +505,7 @@ const changeValue = (newValue) => {
   setCollapsed(true); // Utilise un booléen pour fermer le menu
 };
 ```
-### 2. Le menu restait ouvert après que l'utiklisateur ait cliqué sur son choix dans la collapse
+### 7.2. Le menu restait ouvert après que l'utilisateur ait cliqué sur son choix dans la collapse
 
 **Solution apportée : **
 ```
@@ -576,10 +553,10 @@ SCSS
 
 **Problème initial : **
 
-- Ps de support pour lecteurs d'écrans
+- Pas de support pour lecteurs d'écrans
 - Navigation au claavier impossible
 
-**Solution : **
+**Solution :**
 
 ```
 javascript 
@@ -601,7 +578,7 @@ javascript
 ```
 5. Gestion de l'état 
 **Problème initial :**
-- Confusion entre v aleur et état du collapse
+- Confusion entre valeur et état du collapse
 - Mauvaise gestion du state
 
 **Solution apportée : **
@@ -627,3 +604,81 @@ Navigation possible au clavier
 ✅ Interaction souris
 ✅ Navigation clavier
 ✅ Support des lecteurs d'écran
+
+
+### Problème : Affichage dynamique du dernier événement dans le footer
+
+#### Description :
+Le composant Home ne mettait pas à jour dynamiquement le dernier événement affiché dans le footer. Cela posait un problème pour refléter les changements en temps réel lorsque de nouveaux événements étaient ajoutés.
+
+#### Solution implémentée :
+Modification la logique de récupération du dernier événement pour la rendre dynamique et réactive aux changements de données.
+
+1. Utilisation de `useState` et `useEffect` pour gérer l'état du dernier événement.
+2. Tri des événements par date pour s'assurer que le plus récent est toujours sélectionné.
+
+#### Code modifié :
+```javascript
+const [last, setLast] = useState(null)
+useEffect(() => {
+  if (data?.events) {
+    const sortedEvents = [...data.events].sort((a,b) => new Date(b.date) - new Date(a.date));
+    setLast(sortedEvents[0])
+  }
+}, [data])
+
+Dans le jsx à fooetr:
+ <footer className="row">
+      <div className="col presta">
+        <h3>Notre derniére prestation</h3>
+        {last && (
+        <EventCard
+          imageSrc={last.cover}
+          title={last.title}
+          date={new Date(last.date)}
+          small
+          label={last.type}
+        />
+        )}
+      </div>
+      ```
+      Résultat :
+       - Le dernier événement est maintenant correctment affiché et mis à jour dynamiquement
+       - Les tests existant passent sans modification, confirmant a robustesse de la solution
+
+       Avantage de cette approche :
+       - Réactivité aux changements données
+       - Indépendance de l'ordre initial des événements dans le tableau
+       - Garrantie que l'évenement le plus récent est toujours affiché
+
+       Prochaines étapes 
+       - Surveiller les performances si le nombre d'événements devient important
+       - Envisager l'ajout de tests spécifiques pour cette fonctionnalité dynamique
+
+
+## 🔗 Correction des Liens Réseaux Sociaux
+
+### Localisation
+- Fichier : `src/pages/Home/index.js`
+- Section : Footer
+
+### Problème Initial
+Les icônes des réseaux sociaux n'étaient pas cliquables et ne renvoyaient pas vers les sites correspondants.
+
+**Ancien code :**
+```javascript
+<a href="#twitch">
+  <Icon name="twitch" />
+</a>
+```
+**Correction :**
+```javascript
+<a href="https://www.twitch.tv" 
+   target="_blank"
+   rel="noopener noreferrer"
+>
+  <Icon name="twitch" />
+</a>
+```
+Idem pour les autres icônes.
+

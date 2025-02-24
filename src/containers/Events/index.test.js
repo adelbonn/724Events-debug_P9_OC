@@ -59,7 +59,7 @@ describe("When Events is created", () => {
     });
   });
   describe("and we select a category", () => {
-    it.only("an filtered list is displayed", async () => {
+    it("an filtered list is displayed", async () => { // les test de ce fichiers étaient skipped car ce test utilisait it.onlye ce qui veux dire que seul ce test dans ce fichier doit être éxécuté, donc pour permettre aux autres stest de fonctionné j'enlève it.only et écrit le test avec it)
       api.loadData = jest.fn().mockReturnValue(data);
       render(
         <DataProvider>

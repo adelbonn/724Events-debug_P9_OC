@@ -4,6 +4,7 @@ import Field, { FIELD_TYPES } from "../../components/Field";
 import Select from "../../components/Select";
 import Button, { BUTTON_TYPES } from "../../components/Button";
 
+// simulation d'appel API
 const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 500); })
 
 const Form = ({ onSuccess, onError }) => {
@@ -13,9 +14,9 @@ const Form = ({ onSuccess, onError }) => {
       evt.preventDefault();
       console.log("Form submited with data:", new FormData(evt.target));
       setSending(true);
-      onSuccess(); // We call onSuccess after mockContactApi 
-      // modifications : ajout de l'appel à onSueccess() et onErr propagation de erreur
-      // We try to call mockContactApi
+      onSuccess(); // Appel  onSuccess après mockContactApi, mockContactApi simule un appel APi asynchrone
+      // modifications : ajout de l'appel à onSuccess() et onErr propagation de erreur
+    
       try {
         await mockContactApi();
         setSending(false);
@@ -25,7 +26,7 @@ const Form = ({ onSuccess, onError }) => {
         throw err;
       }
     },
-    [onSuccess, onError]
+    [onSuccess, onError]  // tableau de dépendance permet de détecter les changements dans les props et les dépendances et detecter les changements dans les champs du formulaire ce qui va permettre de mettre à jour le formulaire lorsque les données du formulaire sont modifiées.
   );
   return (
     <form onSubmit={sendContact}>

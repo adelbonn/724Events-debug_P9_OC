@@ -1,3 +1,6 @@
+import { useState, useEffect} from 'react'
+import { useData } from "../../contexts/DataContext";
+
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
@@ -10,22 +13,39 @@ import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
-import { useData } from "../../contexts/DataContext";
+
 /* eslint-disable no-console */
 
 const Page = () => {
   const {data, error, isLoading} = useData()
 
+  // amélioration pour rendre dynmique l'affichage du dernier événement (last) dans le footer (pensé que au clique sur cet élémnt la modale de description de cet élémnt s'affiche)
+  const [last, setLast] = useState(null)
+  useEffect(() => {
+    if (data?.events) {
+      // Trier les événements par date décroissante
+      const sortedEvents = [...data.events].sort((a,b) => new Date(b.date) - new Date(a.date));
+      setLast(sortedEvents[0]) // on affecte le premier événement trié à la variable last
+    }
+  }, [data]) // on utilise ici un tableau de dépendances pour que le useEffect soit appelé à chaque fois que data change
   console.log('🏠 Home Page render:', {
     isLoading,
     hasError: !!error,
     hasData: !!data
   });
 
-// amélioration de la getsion des erreurs lors du chargement des données
+// amélioration de la gestion des erreurs lors du chargement des données
   if (isLoading) return <div>Chargement en cours...</div>;
   if (error) return <div>Erreur lors du chargement des données : {error.message}</div>;
-  const last = data?.events? data.events[data.events.length - 1] : null// récupère le dernier événement 
+
+  // amélioration dynamique de last event
+  // const [last, setLast] = useState(null)
+  // useEffect(() => {   // ce useEffect permet de gérer dynmiquement le dernier evenement
+  //   if(data?.events && data.events.length > 0);
+  //    // on vérifie ici que data?.events existe et qu'il contient au moins 1 élémnts, si c'est le cas  on appel setLast(fonction d'état créee plus haut) avec le dernier événement du tableau data?.events
+  //   setLast(data.events[data.events.length - 1])
+  //   }, [data]) // on utilise ici un tableau de dépendances pour que le useEffect soit appelé à chaque fois que data?.events change
+  // const last = data?.events? data.events[data.events.length - 1] : null  // récupère le dernier événement 
   // eslint-disable-next-line no-console
   console.log("Last event data :" , last)
   return <>
@@ -130,13 +150,14 @@ const Page = () => {
     <footer className="row">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
+        {/* ajout de last && afin de premettre d'etre sûr d'avoir lévénement qui est le dernier en date  */}
         {last && (
         <EventCard
           imageSrc={last.cover}
           title={last.title}
           date={new Date(last.date)}
           small
-          label={last.type} // {last.type} // permet d'afficher le type d'événement dans la card
+          label={last.type}
         />
         )}
       </div>
@@ -146,16 +167,29 @@ const Page = () => {
         <div>01 23 45 67 89</div>
         <div>contact@724events.com</div>
         <div>
-          <a href="#twitch">
+          {/* Ajouter un target blank et href renvoyant vers les reseaux sociaux  */}
+          <a href="https://www.twitch.tv" 
+             target="_blank"
+             rel="noopener noreferrer"
+          >
             <Icon name="twitch" />
           </a>
-          <a href="#facebook">
+          <a href="#facebook" 
+          target="_blank"
+             rel="noopener noreferrer"
+          >
             <Icon name="facebook" />
           </a>
-          <a href="#twitter">
+          <a href="#twitter" 
+          target="_blank"
+             rel="noopener noreferrer"
+          >
             <Icon name="twitter" />
           </a>
-          <a href="#youtube">
+          <a href="#youtube" 
+          target="_blank"
+             rel="noopener noreferrer"
+          >
             <Icon name="youtube" />
           </a>
         </div>

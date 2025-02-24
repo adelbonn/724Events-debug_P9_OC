@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import "./style.scss";
 
-// Crée le composant Select qui accepte plusiers props en tant que paramètre 
+// Crée le composant Select qui accepte plusieurs props en tant que paramètre 
 const Select = ({
   selection,
   onChange,
@@ -15,7 +15,7 @@ const Select = ({
   type = "normal",
 }) => {
   const [value, setValue] = useState();
-  const [collapsed, setCollapsed] = useState(true);  // boleen et non pas une valeur, donc changer le booleen qd on appel setValue
+  const [collapsed, setCollapsed] = useState(true);  // booleen et non pas une valeur, donc changer le booleen qd on appel setValue
   const changeValue = (newValue) => {
     console.log('Select - Nouvelle valeur sélectionnée', newValue)
     // onChange();   // bug ici il n'envoie pas  newValue

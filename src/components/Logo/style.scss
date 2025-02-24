@@ -9,7 +9,7 @@
     font-size: 39px;
     font-weight: 700;
     white-space: pre;
-    background: linear-gradient(to right, darken($primary, 10%), $primary);
+    background: linear-gradient(to top, lighten($primary, 10%), $black);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

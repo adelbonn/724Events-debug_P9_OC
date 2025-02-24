@@ -15,7 +15,7 @@ const EventCard = ({
 }) => {
 
   // on s'assure que  la date passée à EventCard.js est bien un objet Date (avec instanceof) avant d'appeler la fonction getMonth()
-const eventDate = date instanceof Date ? date : new Date(date);
+const eventDate = date instanceof Date ? date : new Date(date); // enlever cette ligne car pas besoin on demande en fait de verifier que la date est une date et aussi une string et plus bas il est dit que ce doit etre une string
 
   return (
     <div

@@ -13,4 +13,4 @@ export const MONTHS = {
   12: "décembre",
 };
 
-export const getMonth = (date) => MONTHS[date.getMonth() +1 ];  // on js on démarre à index 0 dans le tableau pas a un (le bon mois s'affiche dans le slider mais pas dans les card events), verifier eventCard.js)
+export const getMonth = (date) => MONTHS[date.getMonth() +1 ];  // en programmation on démarre à index 0 dans le tableau pas a un (le bon mois s'affiche dans le slider mais pas dans les card events), verifier eventCard.js)
