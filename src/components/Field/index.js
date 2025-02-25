@@ -9,6 +9,28 @@ export const FIELD_TYPES = {
 };
 
 const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, required = false }) => {
+  const getAutoComplete = (fieldName, fieldType) => {
+
+    // si c'est un textarea, on retourne "off" par default
+    if (fieldType === FIELD_TYPES.TEXTAREA) {
+      return "off";
+    }
+
+    // sinon, pour les autres type de champs : 
+    switch (fieldName) {
+      case "nom":
+        return "family-name";
+      case "prenom":
+        return "given-name";
+      case "email":
+        return "email";
+        case "message":
+        return "off";
+      default:
+        return "off"; // par defaut je desactive l'autocompletion car React s'attend a recevoir un string et non un booleen ce qui a provoquer une erreur en console
+    }
+  };
+
   let component;
   switch (type) {
     case FIELD_TYPES.INPUT_TEXT:
@@ -21,6 +43,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, requir
           required={required}
           minLength={2}
           title={`Veuillez remplir le champ ${label} `}
+          autoComplete={getAutoComplete(name)}
         />
       );
       break;
@@ -33,18 +56,20 @@ case FIELD_TYPES.EMAIL:
           placeholder={placeholder}
           data-testid="field-testid"
           required={required}
-          // pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}"
-          title="Veullez remplir un email valide (ex: nom@domani.com)"
+          title="Veullez remplir un email valide (ex: nom@domain.com)"
+           autoComplete="email"
         />
       );
 break;
     case FIELD_TYPES.TEXTAREA:
-      component = <textarea name={name} 
+      component = <textarea 
+      name={name} 
       data-testid="field-testid"
       required
       minLength={10}
       title={`Veuillez remplir le champ ${label}, 
             le message doit contenir minimum 10 caractères `}
+            autoComplete={getAutoComplete(name, type)}
       />;
       break;
     default:
