@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import "./style.scss";
 
-// Crée le composant Select qui accepte plusieurs props en tant que paramètre 
+// Crée le composant Select qui accepte plusieurs props en tant que paramètre
 const Select = ({
   selection,
   onChange,
@@ -13,35 +13,46 @@ const Select = ({
   titleEmpty,
   label,
   type = "normal",
+  required,
 }) => {
   const [value, setValue] = useState();
-  const [collapsed, setCollapsed] = useState(true);  // booleen et non pas une valeur, donc changer le booleen qd on appel setValue
+  const [collapsed, setCollapsed] = useState(true); // booleen et non pas une valeur, donc changer le booleen qd on appel setValue
   const changeValue = (newValue) => {
-    console.log('Select - Nouvelle valeur sélectionnée', newValue)
+    console.log("Select - Nouvelle valeur sélectionnée", newValue);
+    // met à jour la valeur avant d'appeler onChange, meilleure gestion de la valeur newValue
+    const finalValue = newValue === null ? "" : newValue;
+    setValue(finalValue);
+    onChange(finalValue);
+
+    // setValue avant onChange car cela
     // onChange();   // bug ici il n'envoie pas  newValue
-    onChange(newValue); // Correction : ajout de la valeur newValue , il transmet la newValue
-    setValue(newValue);
+
+    // setValue(newValue);
+    // onChange(newValue); // Correction : ajout de la valeur newValue , il transmet la newValue
+
     // setCollapsed(newValue);  // utilise newValue au lieu d'un booléen (cf ci-dessus)
-    setCollapsed(true); // utilise une booleen, ici true pour que le collapse se ferme après le choix de l'utilisateur 
+    setCollapsed(true); // utilise une booleen, ici true pour que le collapse se ferme après le choix de l'utilisateur
   };
   return (
-    <div className={`SelectContainer ${type}`} data-testid="select-testid">
+    <div className="SelectContainer" data-testid="select-testid">
       {label && <div className="label">{label}</div>}
-      
-      <div className="Select"
-      role="button" // ajout du role pour une meilleure accesibilité
-      tabIndex={0}  // tabindex pour la navigation clavier
-      onClick={(e) => {
-        e.preventDefault();
-        setCollapsed(!collapsed);
-      }}
-      onKeyDown={(e) => { // Gestion du clavier pour l'accessibilité
-        if (e.key === 'Enter' || e.key === ' ') {
+
+      <div
+        className={`Select ${type}`}
+        role="button" // ajout du role pour une meilleure accesibilité
+        tabIndex={0} // tabindex pour la navigation clavier
+        onClick={(e) => {
           e.preventDefault();
           setCollapsed(!collapsed);
-        }
-      }}
-    >
+        }}
+        onKeyDown={(e) => {
+          // Gestion du clavier pour l'accessibilité
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setCollapsed(!collapsed);
+          }
+        }}
+      >
         <ul>
           <li className={collapsed ? "SelectTitle--show" : "SelectTitle--hide"}>
             {value || (!titleEmpty && "Toutes")}
@@ -50,7 +61,11 @@ const Select = ({
             <>
               {!titleEmpty && (
                 <li onClick={() => changeValue(null)}>
-                  <input defaultChecked={!value} name="selected" type="radio" />{" "}
+                  <input
+                    defaultChecked={!value}
+                    name={`${name}-radio`}
+                    type="radio"
+                  />{" "}
                   Toutes
                 </li>
               )}
@@ -58,7 +73,7 @@ const Select = ({
                 <li key={s} onClick={() => changeValue(s)}>
                   <input
                     defaultChecked={value === s}
-                    name="selected"
+                    name={`${name}-radio`}
                     type="radio"
                   />{" "}
                   {s}
@@ -67,7 +82,13 @@ const Select = ({
             </>
           )}
         </ul>
-        <input type="hidden" value={value || ""} name={name} />
+        <input
+          type="hidden"
+          value={value}
+          name={name}
+          required={required}
+          title="Veuillez sélectionner une option (Personnel ou Entreprise)"
+        />
         <button
           type="button"
           data-testid="collapse-button-testid"
@@ -106,14 +127,16 @@ Select.propTypes = {
   titleEmpty: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,
-}
+  required: PropTypes.bool,
+};
 
 Select.defaultProps = {
   onChange: () => null,
   titleEmpty: false,
   label: "",
   type: "normal",
+  required: false,
   name: "select",
-}
+};
 
 export default Select;

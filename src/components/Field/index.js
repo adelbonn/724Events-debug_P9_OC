@@ -19,6 +19,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, requir
           placeholder={placeholder}
           data-testid="field-testid"
           required={required}
+          minLength={2}
           title={`Veuillez remplir le champ ${label} `}
         />
       );
@@ -32,13 +33,19 @@ case FIELD_TYPES.EMAIL:
           placeholder={placeholder}
           data-testid="field-testid"
           required={required}
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-          title={`Veuillez remplir le champ ${label} `}
+          // pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}"
+          title="Veullez remplir un email valide (ex: nom@domani.com)"
         />
       );
 break;
     case FIELD_TYPES.TEXTAREA:
-      component = <textarea name={name} data-testid="field-testid" />;
+      component = <textarea name={name} 
+      data-testid="field-testid"
+      required
+      minLength={10}
+      title={`Veuillez remplir le champ ${label}, 
+            le message doit contenir minimum 10 caractères `}
+      />;
       break;
     default:
       component = (
@@ -48,7 +55,6 @@ break;
           placeholder={placeholder}
           data-testid="field-testid"
           required={required}
-          title={`Veuillez remplir le champ ${label} `}
         />
       );
       break;

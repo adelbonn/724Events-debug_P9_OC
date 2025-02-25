@@ -682,3 +682,65 @@ Les icônes des réseaux sociaux n'étaient pas cliquables et ne renvoyaient pas
 ```
 Idem pour les autres icônes.
 
+
+## Composant : Events
+
+## Fichier : src/containers/Events/index.test.js
+
+### 🐛 Problème Initial
+1. Le test échouait lors de la recherche d'éléments contenant le texte "avril"
+2. L'assertion pour vérifier le nombre d'événements était mal formulée
+3. La gestion des erreurs dans les tests manquait de précision
+
+### 🔧 Corrections Apportées
+
+#### 1. Recherche d'éléments multiples
+```javascript
+// Avant
+await screen.findByText("avril");
+
+// Après
+const eventCards = await screen.findAllByText("avril");
+```
+Raison technique :
+- findByText ne returne qu'un élément ayant le tete 'avril' et le test iundiquait que nous en avons plusieurs avec ce mois. et que c'est pour cela qu'il échouait
+Donc j'ai changé findByText par findByAlleText('avril')
+
+2. Correction de l'assertion : 
+```javascript
+// Avant
+expect(eventCards.length).toHaveLength(2);
+
+// Après
+expect(eventCards).toHaveLength(2);
+```
+Raison technique :
+.toHaveLength() doit être appelé directment sur le tableau et non sur sa propriété length .L'ancienne version créait une assertion invalide car on essayait de vérifier la longueur d'un nombre (2)
+
+3. Amélioration de la situation d'erreur :
+```javascript
+// Avant
+api.loadData = jest.fn().mockRejectedValue();
+
+// Après
+api.loadData = jest.fn().mockRejectedValue(new Error("An error occured"));
+```
+Raison technique :
+- Ajout du message d'erreur pour une meilleure traçabilité
+- Utilisation de mockRejectValue pour simuler correctment une promesse rejetée
+- Permet de tester plus précisément la gestion des erreurs dans le composant Events
+
+✅ Résultats
+Les tests passent maintenant avec succès
+Meilleure couverture des cas d'erreur
+Tests plus maintenables et plus explicites
+📝 Bonnes Pratiques Appliquées
+Spécificité : Tests plus précis sur le nombre exact d'éléments attendus
+Clarté : Messages d'erreur explicites pour faciliter le débogage
+Robustesse : Meilleure gestion des cas asynchrones avec les méthodes appropriées de React Testing Library
+Maintenabilité : Code de test plus clair et plus facile à maintenir
+🔄 Impact sur le Code de Production
+Ces corrections de tests ont permis d'identifier et de corriger des problèmes potentiels dans le code de production, notamment :
+
+La gestion des éléments multiples dans la liste d'événements
+La robustesse de la gestion des erreurs
