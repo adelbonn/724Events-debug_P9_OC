@@ -15,7 +15,7 @@ const Select = ({
   type = "normal",
   required,
 }) => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");  // initialiser avec un chaine vide au lieu de undefined => évite un input non controlé, 
   const [collapsed, setCollapsed] = useState(true); // booleen et non pas une valeur, donc changer le booleen qd on appel setValue
   const changeValue = (newValue) => {
     console.log("Select - Nouvelle valeur sélectionnée", newValue);
