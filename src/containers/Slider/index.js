@@ -7,7 +7,7 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
- // const byDateDesc = data?.focus? [...data.focus].sort((evtA, evtB) =>  // ajout de? sur focus pour s'assurer que lélément a bien le focus
+ // const byDateDesc = data?.focus? [...data.focus].sort((evtA, evtB) =>  // ajout de? sur focus pour s'assurer que l'élément a bien le focus
    // new Date(evtA.date) > new Date(evtB.date) ? -1 : 1 // correction de la pagination, elle n'est pas triée de la plus récente à la plus ancienne, mais de la plus ancienne à la plus récente le signe <  a été remplacé par le sign >
  //  );
 
@@ -18,7 +18,7 @@ const Slider = () => {
  return dateB - dateA; // Tri décroissant
  }) : [];
 
- // Réinitialiser l'index si on dépasse la longueur du tableau (évite le bug du slider blanc)
+ // Réinitialiser l'index si on dépasse la longueur du tableau (évite le bug du slide blanc)
  useEffect(() => {
   if (byDateDesc.length && index >= byDateDesc.length) {
     setIndex(0);

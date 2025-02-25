@@ -18,7 +18,10 @@ const EventList = () => {
   console.log("🔍 Current filter type:", type);
   console.log("📊 Available events:", data?.events);
 }, [type, data]);
-
+// s'il y a une erreur on affiche un message d'erreur, déplacement du messsage d'erreur au début du composant, assuré que le message "An error occured" est le même que celui attendu dans le test (cohérence avec le test et affichage tôt des erreurs )
+if (error) {
+  return <div>An error occured</div>;
+}
   // const filteredEvents = (
   //   (!type
   //     ? data?.events

@@ -15,7 +15,7 @@ const Form = ({ onSuccess, onError }) => {
       console.log("Form submited with data:", new FormData(evt.target));
       setSending(true);
       onSuccess(); // Appel  onSuccess après mockContactApi, mockContactApi simule un appel APi asynchrone
-      // modifications : ajout de l'appel à onSuccess() et onErr propagation de erreur
+      // modifications : ajout de l'appel à onSuccess() (onSuccess n'était pas aoplé) et onErr  amélioration gestion des erreurs
     
       try {
         await mockContactApi();
@@ -32,16 +32,22 @@ const Form = ({ onSuccess, onError }) => {
     <form onSubmit={sendContact}>
       <div className="row">
         <div className="col">
-          <Field placeholder="" label="Nom" />
-          <Field placeholder="" label="Prénom" />
+          <Field placeholder="" 
+          label="Nom" name="nom" 
+          required />
+          <Field placeholder="" label="Prénom" name="prenom" required />
           <Select
             selection={["Personel", "Entreprise"]}
             onChange={() => null}
             label="Personel / Entreprise"
             type="large"
             titleEmpty
+            required
           />
-          <Field placeholder="" label="Email" />
+          <Field placeholder=""
+          name="email"
+           label="Email"
+           required />
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"}
           </Button>
@@ -49,6 +55,8 @@ const Form = ({ onSuccess, onError }) => {
         <div className="col">
           <Field
             placeholder="message"
+            name="message"
+            required
             label="Message"
             type={FIELD_TYPES.TEXTAREA}
           />

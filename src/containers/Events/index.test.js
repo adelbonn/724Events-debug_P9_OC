@@ -45,11 +45,14 @@ describe("When Events is created", () => {
         <Events />
       </DataProvider>
     );
-    await screen.findByText("avril");
+    // await screen.findAllByText("avril");  // correction sur ce test qui recherchait un seul élément avec le mot 'avril' alors que nous en avons plusieurs et donc j'ai changé findByText par findByAlleText('avril')
+  const eventCards = await screen.findAllByText("avril");
+  expect(eventCards).toHaveLength(2);  // ajout d'une assertion .toHaveLength car nous savons qu'il y au moins 2 événements avec le mois 'avril'
+  
   });
   describe("and an error occured", () => {
     it("an error message is displayed", async () => {
-      api.loadData = jest.fn().mockRejectedValue();
+      api.loadData = jest.fn().mockRejectedValue(new Error("An error occured ")); // ici on simule une promesse rejeté (mockRejectvalue),  ajouter d'un message d'erreur explicite dans le mock
       render(
         <DataProvider>
           <Events />
@@ -59,7 +62,7 @@ describe("When Events is created", () => {
     });
   });
   describe("and we select a category", () => {
-    it("an filtered list is displayed", async () => { // les test de ce fichiers étaient skipped car ce test utilisait it.onlye ce qui veux dire que seul ce test dans ce fichier doit être éxécuté, donc pour permettre aux autres stest de fonctionné j'enlève it.only et écrit le test avec it)
+    it("an filtered list is displayed", async () => { // les test de ce fichiers étaient skipped car ce test utilisait it.only ce qui veux dire que seul ce test dans ce fichier doit être éxécuté, donc pour permettre aux autres tests de fonctionné j'enlève it.only et écrit le test avec it)
       api.loadData = jest.fn().mockReturnValue(data);
       render(
         <DataProvider>
