@@ -98,7 +98,7 @@ Field.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  required: PropTypes.bool // Ajout d'un nouveau prop pour le champ requis
+  required: PropTypes.bool // Ajout d'un nouveau prop pour les champs requis
 };
  Field.defaultProps = {
    label: "",
