@@ -18,23 +18,10 @@ const EventList = () => {
   console.log("🔍 Current filter type:", type);
   console.log("📊 Available events:", data?.events);
 }, [type, data]);
-// s'il y a une erreur on affiche un message d'erreur, déplacement du messsage d'erreur au début du composant, assuré que le message "An error occured" est le même que celui attendu dans le test (cohérence avec le test et affichage tôt des erreurs )
+
 if (error) {
   return <div>An error occured</div>;
 }
-  // const filteredEvents = (
-  //   (!type
-  //     ? data?.events
-  //     : data?.events) || []
-  // ).filter((event, index) => {
-  //   if (
-  //     (currentPage - 1) * PER_PAGE <= index &&
-  //     PER_PAGE * currentPage > index
-  //   ) {
-  //     return true;
-  //   }
-  //   return false;
-  // });
   
 
 const filteredEvents = (data?.events || [])
@@ -48,7 +35,7 @@ const filteredEvents = (data?.events || [])
   });
   return matchesType;
 })
-  // 2. Ajout de la pagination
+  // 2. Ajout de la pagination (ajout de filter sur le tableau des événements)
   .filter((_, index) => {
     const start = (currentPage - 1) * PER_PAGE;
     const end = start + PER_PAGE;

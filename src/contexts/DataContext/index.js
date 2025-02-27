@@ -22,7 +22,7 @@ console.log('🔄 DataProvider initialized');
 
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
-  // const [data, setData] = useState({ events: [] }); // Ajout d'un état pour les données
+  
   const [last, setLast] = useState(null); // Ajout d'un état pour last pour le timestamp
   
   const getData = useCallback(async () => {
@@ -58,7 +58,7 @@ console.log('🔄 DataProvider initialized');
       value={{
         data,
         error,
-        last   // Ajout de la date actuelle
+        last   // Ajout de la date last
       }}
     >
       {children}
