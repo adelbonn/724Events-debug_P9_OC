@@ -53,7 +53,7 @@
  - Test : "When a event card is created › a title, a label and a month are displayed"
  - Erreur Impossible de trouver le texte "avril"
  - Composant : EventCard
- - Type : Erruer d'affichage de date
+ - Type : Erreur d'affichage de date
 
 - Message d'erreur dans le terminal:
     TestingLibraryElementError: Unable to find an element with the text: /avril/. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
@@ -115,7 +115,7 @@
 
   - Test : "When slider is created › a list card is displayed"
   - Erreur : Impossible de trouver le texte "janvier"
-  - Composant : Slieder
+  - Composant : Slider
   - Type : Erreur d'affichage de date
 
  - Message d'erreur dans le terminal : 

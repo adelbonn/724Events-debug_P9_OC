@@ -15,7 +15,7 @@ Le site présente les services, les réalisations, et l'équipe de l'agence.
 ## 🐛 Bugs Identifiés et Corrigés
 
 1. **Carrousel d'événements**
-   - ✅ Correction du tri chronologique (affichage par date décroissante)
+   - ✅ Correction du tri chronologique (le client souhaite que les événements (dans le slider) s'affichent du plus ancien au plus récent))
    - ✅ Optimisation de l'affichage des événements
    - ✅ Correction de la pagination des slides
    - ✅ Correction de slide inutile affiché (blanc) 
@@ -23,9 +23,9 @@ Le site présente les services, les réalisations, et l'équipe de l'agence.
 
 
 2. **Section "Nos Réalisations"**
-   - ✅ Implémentation du système de filtrage par mois
+   - ✅ Implémentation du système de filtrage par mois 
    - ✅ Correction du tri par catégories dans le collapse de la section 'Nos réalisations'
-   - ✅ Correction de l'affichage de la date et du type de l'évenements affiché dans les EventsCard
+   - ✅ Correction de l'affichage de la date et du type de l'évenements affiché dans les EventsCards
    
 
 3. **Formulaire de Contact**
@@ -33,9 +33,8 @@ Le site présente les services, les réalisations, et l'équipe de l'agence.
    - ✅ Validation des champs du formulaire
 
 4. **Footer**
-   - ✅ Correction de l'affichage du dernier événement dans la Card du footer
-   - ✅ Correction de l'affichage de la date et du type de l'évenements affiché dans la card du footer (lié aux autres EventsCard)
-   
+   - ✅ Correction de l'affichage du dernier événement dans la eventCard du footer
+   - ✅ Correction de l'affichage de la date et du type de l'évenements affiché dans la card du footer 
 
 
 5. **Autres Corrections**
@@ -64,7 +63,6 @@ Le site présente les services, les réalisations, et l'équipe de l'agence.
 - React Developer Tools pour l'analyse de l'architecture
 - Chrome DevTools pour le débogage
 - Tests automatisés pour la validation
-- Debugging Tools pour le débogage
 
 ### Documentation de Test
 
@@ -86,13 +84,13 @@ Le site présente les services, les réalisations, et l'équipe de l'agence.
 ## ⚙️ Installation
 
 ``bash
-# Cloner le repository
+## Cloner le repository
 git clone [https://github.com/adelbonn/724Events-debug_P9_OC]
 
-# Se placer dans le dossier
+## Se placer dans le dossier
 cd 724-events
 
-# Installer les dépendances
+## Installer les dépendances
 - `yarn install`
 
 ## Lancement de l'application

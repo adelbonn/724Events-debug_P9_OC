@@ -7,10 +7,11 @@
 
 1.1 Slider  : 
 
-    - Tri incorrect des événenments (doivent être trié par date de manière décroissante)
+    - Tri incorrect des événenments (doivent être trié : le plus ancien événement apparaît en 1er slide au plus récent)
     - pbs d'index dans le slider (pb key prop)
     - les boutons radio n'indique pas sur quelle slide on se trouve au défilement des slides (mauvaise pagination) 
-    - un slide ce s'affiche pas correctement(un blanc apparaît) (manque tableau de dependance)
+    - un slide ce s'affiche pas correctement(un blanc apparaît) 
+    - problème de re-rendu du composant (dû au manque de tableau de dépendance)
 
 1.2 Logo :
 
@@ -25,7 +26,7 @@
      - le bouton 'Nos réalisations' ne renvoi pas à la section 'Nos réalisations'
      - le boutons 'Notre équipe ne renvoie pas à la section 'Notre équipe'
      -> les ancres  de la navbar ne renvoie pas aux sections correspondantes (les id dans  Page/Home/inex.js ne sont pas appliqué aux section, les ancres correpondantes se trouvent dans Container/Menu/Boutons/index.js
- )
+ 
 
 2. Section ' Nos réalisations ' :
 
@@ -40,8 +41,9 @@
     - la liste des événenements ne semble pas afficher les bons mois et certains reste vide (sera corriger en même temps que le problème de key du slider pour les mois)
 
 3. Formulaire de contact : 
+
      - Message de confirmation manquant quand le message est envoyé (au click sur envoyer suite à un remplissage correct des champs)
-     - Pas de message d'erreur sur les sections du formulaire (si ces sections ne sont pas remplies ou mal remplies):
+     - Pas de message d'erreur sur les sections du formulaire (si ces sections ne sont pas remplies ou mal     remplies):
      - nom
      - prénom
      - email
@@ -61,15 +63,12 @@
        - logo les styles inline ne sont pas écrit  en jsx , il existe des vriables scss spécifique a notre projet autant ls appliqué directement dans le scss de Logo
        - Vérifié si d'autres stymles sont mal appliqué
 
-6. Gros problèmes de performance :
-Large content full Paint a 879.5
-cumulative Layout  a 2.00
 
 
 ## Plan de Test 
 
  - [] Aller dans ReactDevTools et analyser les differents composant leur comportement..
- - Corriger les warning de la console
+ - [] Corriger les warning de la console
  - [] Lancer les tests unitaires
  - [] Noter les tests qui échouent
  - [] Corriger chaque bugs identifiés
@@ -77,10 +76,14 @@ cumulative Layout  a 2.00
 
  ## Suivi des corrections :
 
- ## Bug #1.1 - Slider :
+ ## Bug 
+
+ ## 1.1 - Slider :
+
  - Localisation : Slider/index.js
 
-- problème  dans le timeout du slider a corriger ( l'index peut dépasse la longueur du tableau, pas de tableau de dependance ce ce qui provoque l'affichage d'une slide blanche, à corriger)
+- problème  dans le timeout du slider a corriger ( l'index peut dépasse la longueur du tableau)
+- Pbs de re-rendu (manque tableau de depnadance)
  - Description :
    - Tri incorrect des événenments
    - les boutons radio n'indique pas sur quelle slide on se trouve au défilement des slides (ils n'ont pas de gestionnaire d'evenements, ) = pbs de pagination
@@ -98,11 +101,13 @@ cumulative Layout  a 2.00
 - Fichier: `src/containers/Slider/index.js`
 
 ### Description du problème
+
 1. Tri incorrect des événements
 2. Les boutons radio n'indiquaient pas la slide active lors du défilement
 3. Une slide ne s'affichait pas correctement (un blanc apparaissait)
 
 ### Processus de débogage
+
 1. **Analyse du problème** :
    - La logique de tri des événements était incorrecte
    - Les boutons radio n'avaient pas de gestionnaire d'événements pour la pagination
@@ -125,7 +130,7 @@ const byDateDesc = data?.focus.sort((evtA, evtB) =>
 const byDateDesc = data?.focus ? [...data.focus].sort((evtA, evtB) => {
   const dateA = new Date(evtA.date);
   const dateB = new Date(evtB.date);
-  return dateB - dateA;  // Tri du plus récent au plus ancien
+  return dateA - dateB;  // Tri du plus ancien au plus récent
 }) : [];
 
 // Ajout d'un useEffect pour gérer le défilement automatique
@@ -290,7 +295,7 @@ Les mois n'étaient pas correctement affichés dans le slider et les EventCards.
 ### 🐛 Corrections apportées
 
 Dans `src/helpers/Date/index.js` :
-Commençais a 1 au lieu de zéro, correction à la source pour une solution globale, (a corriger le slide où il manquait un month et les eventCard où les months ne s'affichait pas)
+Commençais a 1 au lieu de zéro, correction à la source pour une solution globale, (a corriger le slide où il manquait un month et les eventCard où les months ne s'affichaient pas)
 
 ```javascript
 export const getMonth = (date) => MONTHS[date.getMonth() + 1];
@@ -299,7 +304,7 @@ export const getMonth = (date) => MONTHS[date.getMonth() + 1];
 Dans src/components/EventCards/index.js :
 ```javascript
 
-// On a enlver le vérication que la date est bien un objet dat car cela n'était pas nécessaire et la date (plus bas dans le code de Hoime est un string)
+// enlever la vérification que la date est bien un objet dat car cela n'était pas nécessaire et la date (plus bas dans le code de Home est un string)
 // verification de la date est bien un objet Date, verification du type afin d'assurer la compatibilité
 // const eventDate = date instanceof Date ? date : new Date(date);
 // ... reste du code 
