@@ -18,7 +18,6 @@ import Modal from "../../containers/Modal";
 
 const Page = () => {
   const {data, error, isLoading} = useData()
-  
   const [last, setLast] = useState(null)
   useEffect(() => {
     if (data?.events && data.events.length > 0) {
@@ -34,9 +33,9 @@ const Page = () => {
   });
 
 // amélioration de la gestion des erreurs lors du chargement des données
-  if (isLoading) return <div>Chargement en cours...</div>;
-  if (error) return <div>Erreur lors du chargement des données : {error.message}</div>;
-  if (!data) return null;
+  // if (isLoading) return <div>Chargement en cours...</div>;
+  // if (error) return <div>Erreur lors du chargement des données : {error.message}</div>;
+  // if (!data) return null;
   console.log("Last event data :" , last)
   return <>
     <header>

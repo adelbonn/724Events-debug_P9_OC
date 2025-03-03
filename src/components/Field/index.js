@@ -9,33 +9,15 @@ export const FIELD_TYPES = {
 };
 
 const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, required = false }) => {
-  const getAutoComplete = (fieldName, fieldType) => {
 
-    // si c'est un textarea, on retourne "off" par default
-    if (fieldType === FIELD_TYPES.TEXTAREA) {
-      return "off";
-    }
-
-    // sinon, pour les autres type de champs : 
-    switch (fieldName) {
-      case "nom":
-        return "family-name";
-      case "prenom":
-        return "given-name";
-      case "email":
-        return "email";
-        case "message":
-        return "off";
-      default:
-        return "off"; // par defaut je desactive l'autocompletion car React s'attend a recevoir un string et non un booleen ce qui a provoquer une erreur en console
-    }
-  };
 
   let component;
   switch (type) {
     case FIELD_TYPES.INPUT_TEXT:
       component = (
         <input
+        id={name}
+        // id={name}  // ajout 'un id pour l'attribut htmlFor'
           type="text"
           name={name}
           placeholder={placeholder}
@@ -43,7 +25,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, requir
           required={required}
           minLength={2}
           title={`Veuillez remplir le champ ${label} `}
-          autoComplete={getAutoComplete(name)}
+    
         />
       );
       break;
@@ -51,6 +33,8 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, requir
 case FIELD_TYPES.EMAIL:
       component = (
         <input
+        id={name}
+        // id={name}  // ajout 'un id pour l'attribut htmlFor'
           type="email"
           name={name}
           placeholder={placeholder}
@@ -64,17 +48,21 @@ break;
     case FIELD_TYPES.TEXTAREA:
       component = <textarea 
       name={name} 
+      id={name}
+      // id={name}  // ajout 'un id pour l'attribut htmlFor'
       data-testid="field-testid"
       required
       minLength={10}
       title={`Veuillez remplir le champ ${label}, 
             le message doit contenir minimum 10 caractères `}
-            autoComplete={getAutoComplete(name, type)}
+ 
       />;
       break;
     default:
       component = (
         <input
+        id={name}
+        // id={name}  // ajout 'un id pour l'attribut htmlFor'
           type="text"
           name={name}
           placeholder={placeholder}
@@ -84,11 +72,12 @@ break;
       );
       break;
   }
+
+  // ajout de label et htmlFor a la place de span
   return (
     <div className="inputField">
-      <span>{label}</span>
+      <label htmlFor={name}>{label}</label>
       {component}
-
     </div>
   );
 };

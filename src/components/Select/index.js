@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import "./style.scss";
 
-// Crée le composant Select qui accepte plusieurs props en tant que paramètre
+
 const Select = ({
   selection,
   onChange,
