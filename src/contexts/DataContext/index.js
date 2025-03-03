@@ -26,14 +26,14 @@ console.log('🔄 DataProvider initialized');
   const [last, setLast] = useState(null); // Ajout d'un état pour last pour le timestamp
   
   const getData = useCallback(async () => {
-    console.log('📡 Fetching data...');
+ 
     try {
       const result = await api.loadData();
-      console.log('✅ Data fetched successfully:', result);
+    
       setData(result);
       setLast(Date.now()); // Mise à jour de 'last' quand les données sont chargées
     } catch (err) {
-      console.error('❌ Error fetching data:', err);
+
       setError(err);
     }
   }, []);
@@ -44,13 +44,13 @@ console.log('🔄 DataProvider initialized');
     getData();
   }, [data, getData]); // Récupère les données à chaque rafraichissement
     // Log state changes
-    useEffect(() => {
-      console.log('📊 DataContext state updated:', {
-        hasData: !!data,
-        hasError: !!error,
-        last
-      });
-    }, [data, error, last]);
+    // useEffect(() => {
+    //   console.log('📊 DataContext state updated:', {
+    //     hasData: !!data,
+    //     hasError: !!error,
+    //     last
+    //   });
+    // }, [data, error, last]);
   
   return (
     <DataContext.Provider

@@ -23,19 +23,17 @@ const Page = () => {
     if (data?.events && data.events.length > 0) {
       // Trier les événements par date décroissante (utilisation de )
       const sortedEvents = [...data.events].sort((a,b) => new Date(b.date) - new Date(a.date));
-      setLast(sortedEvents[0]) // on affecte le premier événement trié à la variable last
+      setLast(sortedEvents[0]) 
     }
-  }, [data]) 
-  console.log('🏠 Home Page render:', {
-    isLoading,
-    hasError: !!error,
-    hasData: !!data
-  });
+  }, [data]) // on utilise ici un tableau de dépendances pour que le useEffect soit appelé à chaque fois que data change
+ 
 
 // amélioration de la gestion des erreurs lors du chargement des données
-  // if (isLoading) return <div>Chargement en cours...</div>;
-  // if (error) return <div>Erreur lors du chargement des données : {error.message}</div>;
-  // if (!data) return null;
+  if (isLoading) return <div>Chargement en cours...</div>;
+  if (error) return <div>Erreur lors du chargement des données : {error.message}</div>;
+
+  
+  // eslint-disable-next-line no-console
   console.log("Last event data :" , last)
   return <>
     <header>
