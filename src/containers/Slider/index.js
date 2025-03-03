@@ -7,9 +7,7 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
- // const byDateDesc = data?.focus? [...data.focus].sort((evtA, evtB) =>  // ajout de? sur focus pour s'assurer que l'élément a bien le focus
-   // new Date(evtA.date) > new Date(evtB.date) ? -1 : 1 // correction de la pagination, elle n'est pas triée de la plus récente à la plus ancienne, mais de la plus ancienne à la plus récente le signe <  a été remplacé par le sign >
- //  );
+
 
  // Créer une copie triée (sort)du tableau pour éviter la mutation du tableau original
   const byDateDesc = data?.focus ? [...data.focus].sort((evtA, evtB) => {
@@ -40,15 +38,6 @@ useEffect(() => {
 if (!data ||!data.focus || byDateDesc.length === 0) {
   return <div>Chargement...</div>;
 }
-  // const nextCard = () => {
-  //   setTimeout(
-  //     () => setIndex(index < byDateDesc.length ? index + 1 : 0), 
-  //     5000
-  //   );
-  // };
-  // useEffect(() => {
-  //   nextCard();
-  // });
   return (
     <div className="SlideCardList">
       {byDateDesc.map((event, idx) => (
