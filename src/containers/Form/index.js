@@ -7,9 +7,8 @@ import Button, { BUTTON_TYPES } from "../../components/Button";
 // simulation d'appel API
 const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 500); })
 
-const Form = ({ onSuccess, onError }) => {
+  const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
-
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
@@ -95,9 +94,9 @@ const form = evt.target;
           required />
 
           <Select
-            selection={["Personel", "Entreprise"]}
+            selection={["Personnel", "Entreprise"]}
             onChange={() => null}
-            label="Personel / Entreprise"
+            label="Personnel / Entreprise"
             type="large"
             titleEmpty
             required

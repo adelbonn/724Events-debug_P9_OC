@@ -9,11 +9,11 @@ describe("When Form is created", () => {
         <Home />
       </DataProvider>
     );
-  // attaendre que le formuliare soit chargé
+  // attendre que le formuliare soit chargé
      await screen.findByText("Email");
   //   await screen.findByText("Nom");
   //   await screen.findByText("Prénom");
-  //   await screen.findByText("Personel / Entreprise");
+  //   await screen.findByText("Personnel / Entreprise");
   // });
   const emailField = screen.getByLabelText("Email");
   const nameField = screen.getByLabelText("Nom");

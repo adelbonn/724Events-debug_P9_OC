@@ -17,7 +17,7 @@ import Modal from "../../containers/Modal";
 /* eslint-disable no-console */
 
 const Page = () => {
-  const {data, error, isLoading} = useData()
+  const {data} = useData()
   const [last, setLast] = useState(null)
   useEffect(() => {
     if (data?.events && data.events.length > 0) {
@@ -27,11 +27,6 @@ const Page = () => {
     }
   }, [data]) // on utilise ici un tableau de dépendances pour que le useEffect soit appelé à chaque fois que data change
  
-
-// amélioration de la gestion des erreurs lors du chargement des données
-  if (isLoading) return <div>Chargement en cours...</div>;
-  if (error) return <div>Erreur lors du chargement des données : {error.message}</div>;
-
   
   // eslint-disable-next-line no-console
   console.log("Last event data :" , last)

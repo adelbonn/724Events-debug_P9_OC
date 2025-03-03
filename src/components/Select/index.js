@@ -15,44 +15,42 @@ const Select = ({
   type = "normal",
   required,
 }) => {
-  const [value, setValue] = useState();  // initialiser avec un chaine vide au lieu de undefined => évite un input non controlé, 
-  const [collapsed, setCollapsed] = useState(true); // booleen et non pas une valeur, donc changer le booleen qd on appel setValue
+  const [value, setValue] = useState("");  
+  const [collapsed, setCollapsed] = useState(true);
+
   const changeValue = (newValue) => {
     console.log("Select - Nouvelle valeur sélectionnée", newValue);
-    // met à jour la valeur avant d'appeler onChange, meilleure gestion de la valeur newValue
     const finalValue = newValue === null ? "" : newValue;
     setValue(finalValue);
     onChange(finalValue);
-
-    // setValue avant onChange car cela
-    // onChange();   // bug ici il n'envoie pas  newValue
-
-    // setValue(newValue);
-    // onChange(newValue); // Correction : ajout de la valeur newValue , il transmet la newValue
-
-    // setCollapsed(newValue);  // utilise newValue au lieu d'un booléen (cf ci-dessus)
-    setCollapsed(true); // utilise une booleen, ici true pour que le collapse se ferme après le choix de l'utilisateur
+    setCollapsed(true); 
   };
+  
   return (
     <div className="SelectContainer" data-testid="select-testid">
-      {label && <div className="label">{label}</div>}
 
+  {label && (
+    <label id={`select-label-${name}`} className="label">
+          {label}
+        </label>
+  )}
       <div
-        className={`Select ${type}`}
-        role="button" // ajout du role pour une meilleure accesibilité
-        tabIndex={0} // tabindex pour la navigation clavier
-        onClick={(e) => {
+      className={`Select ${type}`}
+       role="listbox"
+       aria-labelledby={label ? `select-label-${name}` : undefined}
+       tabIndex={0} 
+      // id={`select-${name}`}
+      onClick={(e) => {
+        e.preventDefault();
+        setCollapsed(!collapsed);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           setCollapsed(!collapsed);
-        }}
-        onKeyDown={(e) => {
-          // Gestion du clavier pour l'accessibilité
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            setCollapsed(!collapsed);
-          }
-        }}
-      >
+        }
+      }}
+       >
         <ul>
           <li className={collapsed ? "SelectTitle--show" : "SelectTitle--hide"}>
             {value || (!titleEmpty && "Toutes")}
@@ -65,7 +63,6 @@ const Select = ({
                     defaultChecked={!value}
                     name={`${name}-radio`}
                     type="radio"
-                 
                   />{" "}
                   Toutes
                 </li>
@@ -75,8 +72,7 @@ const Select = ({
                   <input
                     defaultChecked={value === s}
                     name={`${name}-radio`}
-                    type="radio"
-                 
+                    type="radio"              
                   />{" "}
                   {s}
                 </li>
@@ -85,6 +81,7 @@ const Select = ({
           )}
         </ul>
         <input
+        // id={`select-${name}`}
           type="hidden"
           value={value || ""}
           name={name}
